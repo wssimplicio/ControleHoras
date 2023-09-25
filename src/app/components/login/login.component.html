@@ -1,0 +1,13 @@
+<section class="container">
+    <div class="divlogin">
+        <form>
+        <h1>Login</h1>
+        <br>
+        <input type="email" placeholder="email@email.com" name="email" id="email" class="inputlogin" [(ngModel)] = "user.email">
+        <br><br>
+        <input type="password" placeholder="password" name="password" id="password" class="inputlogin" [(ngModel)] = "user.senha">
+        <br><br>
+        <button class="buttonlogin" (click) = "login()">Login</button>
+        </form>
+    </div>
+</section>

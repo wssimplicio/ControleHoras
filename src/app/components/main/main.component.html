@@ -12,7 +12,7 @@
         <div class="offcanvas-body">
           <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" (click)="reloadPage()">Ralatório</a>
+              <a class="nav-link active" aria-current="page" (click)="reloadPage()">Relatório</a>
             </li>
           </ul>
         </div>
@@ -56,7 +56,7 @@
     <table class="table table-sm table-striped bg-light">
         <thead>
           <tr>
-            <th scope="col">ID</th>
+            <!--<th scope="col">ID</th>-->
             <th scope="col">Data</th>
             <th scope="col">Inicio</th>
             <th scope="col">Fim</th>
@@ -65,7 +65,7 @@
         </thead>
         <tbody>
             <tr *ngFor="let listHours of listHours">
-             <th>{{listHours.id}}</th>
+             <!--<th>{{listHours.id}}</th>-->
                 <td>{{listHours.data.substring(0,10)}}</td>
                 <td>{{listHours.horaInicial.substring(11,19)}}</td>
                 <td>{{listHours.horaFinal.substring(11,19)}}</td>

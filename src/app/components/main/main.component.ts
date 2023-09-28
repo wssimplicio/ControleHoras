@@ -88,10 +88,15 @@ export class MainComponent implements OnInit{
     })
   }
   saveCheckPoint(){
-
-    this.service.saveCheckPoint(this.controlHours).subscribe(() => {
-      window.location.reload();
-    })
+    if(this.controlHours.horaFinal < this.controlHours.horaInicial){
+      alert('Hora Fim não pode ser menor que Hora Inicio!')
+      alert('Apontamentos após as 23:59 tem que ser realizo em duas etapas!\n O Primeiro Hora Inicio até 23:59 e o Segundo de 00:01 em diante')
+    }
+    else{
+        this.service.saveCheckPoint(this.controlHours).subscribe(() => {
+        window.location.reload();
+      })
+    }
   }
 
   deleteCheckPoint(id: any){

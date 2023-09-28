@@ -21,7 +21,8 @@ export class MainComponent implements OnInit{
     id_usuario: parseInt(this.route.snapshot.paramMap.get('id')!),
     data: '',
     horaInicial: '',
-    horaFinal: ''
+    horaFinal: '',
+    total: ''
   }
 
   listHours : ControlHours[] = []
@@ -30,10 +31,62 @@ export class MainComponent implements OnInit{
     const id  = this.route.snapshot.paramMap.get('id')
 
     this.service.showCheckPoints(parseInt(id!)).subscribe((listHours) =>{
-      this.listHours = listHours
+      
+      let contador = 0
+      var dataJson = [];
+
+      while(contador < listHours.length){
+
+        var id = listHours[contador].id
+        var id_usuario = listHours[contador].id_usuario
+        var data = listHours[contador].data
+        var inicio = listHours[contador].horaInicial
+        var fim  = listHours[contador].horaFinal
+        var resultado
+
+        var horaInicio = new Date(listHours[contador].horaInicial)
+        var HoraFim = new Date(listHours[contador].horaFinal)
+        var diferenca = HoraFim.getTime() - horaInicio.getTime()
+
+        var horas = Math.round(diferenca/3600000)
+        var min = ( diferenca / 60000 ) % 60
+
+        if(horas.toString().length < 2 && min.toString().length < 2){
+          var a = "0" + horas;
+          var b = "0" + min;
+          resultado =  a + ":" + b
+        }
+        else if(horas.toString().length < 2 && min.toString().length > 1){
+          var a = "0" + horas;
+          resultado =  a + ":" + min
+        }
+        else if(horas.toString().length > 1 && min.toString().length < 2){
+          var b = "0" + min;
+          resultado = horas + ":" + b
+        }
+        else{
+          resultado = Math.round(horas) + ":" + min
+        }       
+
+        var myJson = { 
+          id: id, 
+          id_usuario: id_usuario, 
+          data: data, 
+          horaInicial: inicio,
+          horaFinal: fim,
+          total: resultado
+        }
+
+        dataJson.push(myJson)    
+      
+        contador ++
+      }
+
+      //console.log(dataJson)
+      this.listHours = dataJson
+      
     })
   }
-
   saveCheckPoint(){
 
     this.service.saveCheckPoint(this.controlHours).subscribe(() => {

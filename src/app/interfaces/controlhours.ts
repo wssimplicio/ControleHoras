@@ -3,5 +3,6 @@ export interface ControlHours{
     id_usuario: number,
     data: string,
     horaInicial: string,
-    horaFinal: string
+    horaFinal: string,
+    total: string
 }

@@ -26,22 +26,28 @@ export class LoginComponent {
   ) {}
 
   login(){
-     this.service.login(this.user).subscribe((retorno) => {
+    
+    if(this.user.email == '' || this.user.senha == ''){
+      alert('Existem campos vazios!')
+    }
+    else{
+      this.service.login(this.user).subscribe((retorno) => {
      
-      if(retorno.status == 200){
-        this.router.navigate([`main/${retorno.id_usuario}`])
-      }
-      else{
-        alert('Usuario ou Senha Invalido!')
-        this.user.senha = ''
-      }
-    },
-    error =>{
-      if(error['status'] == 400 || error['status'] == 500){
-        alert(error['error']['mensagem'])
-        this.user.senha = ''
-      }
-    })
+        if(retorno.status == 200){
+          this.router.navigate([`main/${retorno.id_usuario}`])
+        }
+        else{
+          alert('Usuario ou Senha Invalido!')
+          this.user.senha = ''
+        }
+      },
+      error =>{
+        if(error['status'] == 400 || error['status'] == 500){
+          alert(error['error']['mensagem'])
+          this.user.senha = ''
+        }
+      })
+    }
   }
 
 }

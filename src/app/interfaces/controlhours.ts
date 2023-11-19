@@ -4,5 +4,6 @@ export interface ControlHours{
     data: string,
     horaInicial: string,
     horaFinal: string,
-    total: string
+    total: string,
+    soma?: string
 }

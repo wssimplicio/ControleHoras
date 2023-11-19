@@ -18,4 +18,10 @@ export class UserService {
     const url =  `${this.api}/login`
     return this.HttpClient.post<User>(url, user);
   } 
+
+  buscarUsuario(id: number): Observable<User>{
+    const url = `${this.api}/usuario/${id}`
+    return this.HttpClient.get<User>(url)
+  }
+
 }

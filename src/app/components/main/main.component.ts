@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ControlHours } from 'src/app/interfaces/controlhours';
+import { User } from 'src/app/interfaces/user';
 import { ControlhoursService } from 'src/app/services/controlhours.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-main',
@@ -13,7 +15,8 @@ export class MainComponent implements OnInit{
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private service: ControlhoursService
+    private service: ControlhoursService,
+    private serviceUser: UserService
   ){}
 
   controlHours : ControlHours = {
@@ -22,7 +25,18 @@ export class MainComponent implements OnInit{
     data: '',
     horaInicial: '',
     horaFinal: '',
-    total: ''
+    total: '',
+    soma: '',
+  }
+
+  user : User = {
+    nome: '',
+    grupo_id: 0,
+    email: '',
+    senha: '',
+    status: 0,
+    mensagem: '',
+    id_usuario: parseInt(this.route.snapshot.paramMap.get('id')!)
   }
 
   listHours : ControlHours[] = []
@@ -32,8 +46,10 @@ export class MainComponent implements OnInit{
 
     this.service.showCheckPoints(parseInt(id!)).subscribe((listHours) =>{
       
-      let contador = 0
+      let contador = 0;
       var dataJson = [];
+      var sumHora = 0;
+      var sumMin = 0;
 
       while(contador < listHours.length){
 
@@ -81,12 +97,27 @@ export class MainComponent implements OnInit{
       
         contador ++
       }
-
-      //console.log(dataJson)
-      this.listHours = dataJson
       
+      this.listHours = dataJson
+
+      
+      for(let i = 0; i < dataJson.length; i++ ){
+        var hora = parseInt(dataJson[i].total.substring(0,2))
+        var min = parseInt(dataJson[i].total.substring(3,5))
+
+        sumHora += hora
+        sumMin += min
+      }
+      this.controlHours.soma = sumHora.toString() + ":" + sumMin.toString();      
     })
+
+    this.serviceUser.buscarUsuario(parseInt(id!)).subscribe((user) => {
+        this.user.nome = user.nome
+    })
+
+
   }
+
   saveCheckPoint(){
     if(this.controlHours.horaFinal < this.controlHours.horaInicial){
       alert('Hora Fim não pode ser menor que Hora Inicio!')
